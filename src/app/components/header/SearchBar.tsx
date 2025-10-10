@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 const MOBILE_MAX_WIDTH = 768;
 const SearchBar = () => {
-  const [open, setOpen] = useState(window.innerWidth > MOBILE_MAX_WIDTH);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const handleResize = () => {
       setOpen(window.innerWidth > MOBILE_MAX_WIDTH);

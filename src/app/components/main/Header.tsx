@@ -29,12 +29,14 @@ const Header = () => {
       </Link>
       <div className="flex items-center gap-3 ">
         <SearchBar />
-        <HiOutlineHome className="text-xl hover:text-primary" />
-        <HiOutlineBellAlert className="text-xl hover:text-primary" />
-        <HiOutlineShoppingCart className="text-xl hover:text-primary" />
-        <Button asChild variant={"ghost"}>
-          <Link href={"/login"}>Sign in</Link>
-        </Button>
+        <div className="flex items-center gap-3 ">
+          <HiOutlineHome className="text-xl hover:text-primary hover:cursor-pointer" />
+          <HiOutlineBellAlert className="text-xl hover:text-primary hover:cursor-pointer" />
+          <HiOutlineShoppingCart className="text-xl hover:text-primary hover:cursor-pointer" />
+          <Button asChild variant={"ghost"}>
+            <Link href={"/login"}>Sign in</Link>
+          </Button>
+        </div>
       </div>
     </header>
   );
