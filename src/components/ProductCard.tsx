@@ -8,6 +8,7 @@ import ColorOptions from "./ColorOptions";
 import { PriceTag } from "./ui/PriceTag";
 import { Button } from "./ui/button";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
+import Link from "next/link";
 const ProductCard = ({ product }: { product: Product }) => {
   const [color, setColor] = useState<string>(product.colors.at(0) || "");
   const [size, setSize] = useState(product.sizes.at(0) || "m");
@@ -16,7 +17,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     alert(product.name);
   };
   return (
-    <div className="flex flex-col  bg-muted shadow-lg rounded-sm w-80  lg:w-60 items-center overflow-hidden">
+    <div className="flex flex-col  bg-muted shadow-lg rounded-sm w-80 sm:w-64  md:w-60 items-center overflow-hidden">
       <Image
         width={180}
         height={320}
@@ -24,10 +25,13 @@ const ProductCard = ({ product }: { product: Product }) => {
         src={image}
         className="w-full"
       />
-      <div className="flex flex-col gap-2 p-2 bg-white w-80 lg:w-60">
-        <h4 className="text-text-primary text-sm font-semibold">
+      <div className="flex flex-col gap-2 p-2 bg-white w-80 sm:w-64  md:w-60">
+        <Link
+          href={`/products/${product.id}`}
+          className="text-text-primary text-sm font-semibold hover:underline"
+        >
           {product.name}{" "}
-        </h4>
+        </Link>
         <p className="text-text-muted text-[10px] text-wrap h-12 truncate">
           {product.description}
         </p>

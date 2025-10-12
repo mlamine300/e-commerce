@@ -129,7 +129,7 @@ const products = [
 
 const ProductList = () => {
   return (
-    <div className="flex justify-around gap-2 flex-wrap ">
+    <div className="grid gap-2 justify-items-center grid-col-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
