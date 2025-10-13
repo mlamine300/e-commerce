@@ -1,14 +1,12 @@
 import Image from "next/image";
 
-import logo from "../../../../public/logo.svg";
+import logo from "../../../public/logo.svg";
 import Link from "next/link";
 import SearchBar from "../header/SearchBar";
-import {
-  HiOutlineBellAlert,
-  HiOutlineHome,
-  HiOutlineShoppingCart,
-} from "react-icons/hi2";
+import { HiOutlineBellAlert, HiOutlineHome } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
+import ShoppingCart from "../ShoppingCart";
+
 const Header = () => {
   return (
     <header
@@ -32,7 +30,7 @@ const Header = () => {
         <div className="flex items-center gap-3 ">
           <HiOutlineHome className="text-xl hover:text-primary hover:cursor-pointer" />
           <HiOutlineBellAlert className="text-xl hover:text-primary hover:cursor-pointer" />
-          <HiOutlineShoppingCart className="text-xl hover:text-primary hover:cursor-pointer" />
+          <ShoppingCart />
           <Button asChild variant={"ghost"}>
             <Link href={"/login"}>Sign in</Link>
           </Button>

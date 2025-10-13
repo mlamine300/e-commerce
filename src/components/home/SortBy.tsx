@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { SelectList } from "../ui/SelectList";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 const options = [
-  { title: "Oldest", key: "oldest" },
   { title: "Newest", key: "newest" },
+  { title: "Oldest", key: "oldest" },
   { title: "Price : Low to High", key: "chipest" },
   { title: "Price : High to Low", key: "expensive" },
 ];
@@ -16,8 +16,11 @@ const SortBy = () => {
 
   const router = useRouter();
   const path = usePathname();
+
   const handleSortBy = (option: { key: string; title: string } | undefined) => {
-    router.push(`${path}?sort=${option?.key || ""}`);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", option?.key || "");
+    router.push(`${path}?${params.toString()}`);
   };
   return (
     <div className="flex items-center gap-1 w-full justify-end ">

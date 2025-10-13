@@ -55,11 +55,13 @@ const categories = [
   },
 ];
 const CategoryBar = () => {
-  const searchParms = useSearchParams();
-  const selected = searchParms.get("category");
+  const searchParams = useSearchParams();
+  const selected = searchParams.get("category");
   const router = useRouter();
   const handleChoose = (slug: string) => {
-    router.push(`/?category=${slug}`);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("category", slug);
+    router.push(`/?${params.toString()}`);
   };
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 p-2 bg-muted justify-items-center items-center w-full rounded">

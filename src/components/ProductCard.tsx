@@ -56,8 +56,11 @@ const ProductCard = ({ product }: { product: Product }) => {
             />
           </div>
         </div>
-        <div className="flex justify-between">
-          <PriceTag price={product.price} />
+        <div className="flex justify-between items-center">
+          <PriceTag
+            price={product.price.current}
+            originalPrice={product.price.original}
+          />
           <Button
             onClick={() => handleAddToCart()}
             size={"sm"}

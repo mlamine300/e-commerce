@@ -8,6 +8,8 @@ interface PriceTagProps {
   currency?: string; // default: USD
   originalPrice?: number; // for showing discount
   className?: string;
+  textSize?: "xs" | "sm" | "lg" | "xl" | "2xl" | "3xl";
+  textClassName?: string;
 }
 
 export const PriceTag: React.FC<PriceTagProps> = ({
@@ -15,6 +17,8 @@ export const PriceTag: React.FC<PriceTagProps> = ({
   currency = "$",
   originalPrice,
   className,
+  textSize,
+  textClassName,
 }) => {
   const isDiscounted = originalPrice && originalPrice > price;
   const discountPercent = isDiscounted
@@ -22,25 +26,31 @@ export const PriceTag: React.FC<PriceTagProps> = ({
     : 0;
 
   return (
-    <div className={twMerge("flex items-baseline gap-2", className)}>
+    <div className={twMerge("flex flex-col items-baseline ", className)}>
+      <div className=" flex items-center gap-2">
+        {isDiscounted && (
+          <>
+            <span className="text-muted-foreground line-through text-xs">
+              {currency}
+              {originalPrice?.toFixed(2)}
+            </span>
+            <Badge variant="secondary" className="text-xs font-medium">
+              -{discountPercent}%
+            </Badge>
+          </>
+        )}
+      </div>
       {/* Current Price */}
-      <span className="text-lg font-semibold text-text-primary">
+      <span
+        className={twMerge(
+          `font-semibold text-text-primary text-${textSize || "lg"}`,
+          textClassName
+        )}
+      >
+        {price < 0 && "-"}
         {currency}
-        {price.toFixed(2)}
+        {Math.abs(price).toFixed(2)}
       </span>
-
-      {/* Original Price (if discounted) */}
-      {isDiscounted && (
-        <>
-          <span className="text-muted-foreground line-through text-sm">
-            {currency}
-            {originalPrice?.toFixed(2)}
-          </span>
-          <Badge variant="secondary" className="text-xs font-medium">
-            -{discountPercent}%
-          </Badge>
-        </>
-      )}
     </div>
   );
 };

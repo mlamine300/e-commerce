@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import logo from "../../../../public/logo.svg";
+import logo from "../../../public/logo.svg";
 import { footerLink } from "@/lib/const";
 const Footer = () => {
   return (

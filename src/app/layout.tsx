@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "./components/main/Header";
-import Footer from "./components/main/Footer";
+import Header from "@/components/main/Header";
+import Footer from "@/components/main/Footer";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -30,7 +31,7 @@ export default function RootLayout({
       <body className="font-body text-text-primary">
         <div className="flex flex-col layout">
           <Header />
-          <div className="w-full h-max flex-grow">{children}</div>
+          <div className="w-full   flex-grow p-5">{children}</div>
           <Footer />
         </div>
       </body>
