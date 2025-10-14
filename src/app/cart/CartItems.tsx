@@ -13,7 +13,7 @@ const CartItems = ({
   deleteProduct: any;
 }) => {
   return (
-    <div className="rounded-lg shadow-lg gap-4 p-5 flex flex-col ">
+    <div className="card gap-4 p-5 flex flex-col ">
       <p className="text-sm font-semibold p-5">Cart Items</p>
       {products.length > 0 ? (
         products.map((product, index) => (

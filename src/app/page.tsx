@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-5">
       <div className="relative aspect-[3/1] mb-12">
-        <Image src={featured} fill alt="cover" className="" />
+        <Image src={featured} fill alt="cover" />
       </div>
       <CategoryBar />
       <SortBy />

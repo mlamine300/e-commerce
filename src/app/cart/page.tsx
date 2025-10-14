@@ -4,7 +4,9 @@ import { SelectedProduct } from "../../../../types";
 
 import CartDetails from "./CartDetails";
 import CartItems from "./CartItems";
-
+import ShippingInfo from "./ShippingInfo";
+import { z } from "zod";
+import PaymentInfo from "./PaymentInfo";
 const boughtProducts: SelectedProduct[] = [
   {
     id: 1,
@@ -82,7 +84,11 @@ const Cart = () => {
       <h3 className="text-xl font-semibold">Your Shopping Cart</h3>
       <div className="flex flex-col md:flex-row gap-4 md:gap-8">
         {steps.map((step, index) => (
-          <div key={index} className="flex flex-col gap-2">
+          <div
+            onClick={() => setSelectedStep(index)}
+            key={index}
+            className="flex flex-col gap-2 cursor-pointer"
+          >
             <div className="flex  items-center gap-4 ">
               <p
                 className={`text-lg text-text-inverse  flex items-center
@@ -114,9 +120,9 @@ const Cart = () => {
         {selectedStep === 0 ? (
           <CartItems products={selectedProduct} deleteProduct={deleteProduct} />
         ) : selectedStep === 1 ? (
-          "shipping adress"
+          <ShippingInfo />
         ) : (
-          "payment methode"
+          <PaymentInfo />
         )}
         <CartDetails
           next={() => setSelectedStep(1)}

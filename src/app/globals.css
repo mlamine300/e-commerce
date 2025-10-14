@@ -164,3 +164,6 @@ body {
   @apply mx-auto px-4 max-w-lg sm:max-w-xl
          md:max-w-2xl lg:max-w-3xl xl:max-w-6xl   min-h-screen
 }
+.card{
+  @apply rounded-lg shadow-lg
+}
