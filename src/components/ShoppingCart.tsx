@@ -1,9 +1,11 @@
+"use client";
+import { useCartStore } from "@/stores/cartStore";
 import Link from "next/link";
 import React from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 
 const ShoppingCart = () => {
-  const itemsNumber = 0;
+  const itemsNumber = useCartStore((state) => state.products.length);
   return (
     <Link href={"/cart"} className=" relative  hover:cursor-pointer">
       <HiOutlineShoppingCart className="text-xl hover:text-primary" />

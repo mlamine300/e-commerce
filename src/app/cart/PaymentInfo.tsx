@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import React from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +19,7 @@ import cards from "../../../public/cards.png";
 import stripe from "../../../public/stripe.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/stores/cartStore";
 
 /********
  
@@ -66,8 +68,9 @@ const paiementFeilds = [
   },
 ];
 const PaymentInfo = () => {
+  const addPaymentInfo = useCartStore((state) => state.addPaymentInfo);
   const handlePayment = (data: z.infer<typeof paymentSchema>) => {
-    console.log(data);
+    addPaymentInfo(data.nameOnCard, data.cardNumber, data.experationDate);
   };
   const form = useForm<z.infer<typeof paymentSchema>>({
     resolver: zodResolver(paymentSchema),

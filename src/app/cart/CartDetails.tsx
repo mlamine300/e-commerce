@@ -1,5 +1,7 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { PriceTag } from "@/components/ui/PriceTag";
+import { useCartStore } from "@/stores/cartStore";
 import React from "react";
 
 const CartDetails = ({
@@ -12,8 +14,9 @@ const CartDetails = ({
   next: any;
   step: number;
 }) => {
-  const discount = total * -0.1;
-  const shippingFee = 10;
+  const discountPercentage = useCartStore((state) => state.discount) || 0;
+  const discount = total * Number((-1 * discountPercentage) / 100);
+  const shippingFee = useCartStore((state) => state.shippingFee) || 0;
   const totaltopay = total + discount + shippingFee;
   return (
     <div className="w-96 rounded-lg shadow-lg p-10 flex flex-col self-end xl:self-start">
@@ -24,7 +27,7 @@ const CartDetails = ({
           <PriceTag textSize="sm" price={total} />
         </div>
         <div className="flex justify-between">
-          <p className="text-sm text-text-muted">{"Discount (10%)"}</p>
+          <p className="text-sm text-text-muted">{`Discount (${discountPercentage}%)`}</p>
           <PriceTag
             textClassName="text-red-700"
             textSize="sm"

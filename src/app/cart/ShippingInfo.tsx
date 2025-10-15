@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { sanitizePhoneNumber } from "@/lib/utils";
+import { useCartStore } from "@/stores/cartStore";
 
 const shippingSchema = z.object({
   name: z
@@ -59,8 +61,15 @@ export const shippingFields = [
 ] as const;
 
 const ShippingInfo = () => {
+  const addShippingInfo = useCartStore((state) => state.addShippmentDetail);
   function handleShipping(data: z.infer<typeof shippingSchema>) {
-    console.log(data);
+    addShippingInfo(
+      data.name,
+      data.email,
+      data.phone,
+      data.address || "",
+      data.city
+    );
   }
   const form = useForm<z.infer<typeof shippingSchema>>({
     resolver: zodResolver(shippingSchema),
