@@ -75,7 +75,7 @@ import { useCartStore } from "@/stores/cartStore";
 
 const Cart = () => {
   const steps = ["Shopping Cart", "Shipping Address", "Payment Method"];
-  const [selectedStep, setSelectedStep] = useState(0);
+  const selectedStep = useCartStore((state) => state.step);
   const selectedProduct = useCartStore((state) => state.products);
   const removeProductById = useCartStore((state) => state.removeProduct);
 
@@ -87,11 +87,7 @@ const Cart = () => {
       <h3 className="text-xl font-semibold">Your Shopping Cart</h3>
       <div className="flex flex-col md:flex-row gap-4 md:gap-8">
         {steps.map((step, index) => (
-          <div
-            onClick={() => setSelectedStep(index)}
-            key={index}
-            className="flex flex-col gap-2 cursor-pointer"
-          >
+          <div key={index} className="flex flex-col gap-2 cursor-pointer">
             <div className="flex  items-center gap-4 ">
               <p
                 className={`text-lg text-text-inverse  flex items-center
@@ -128,7 +124,6 @@ const Cart = () => {
           <PaymentInfo />
         )}
         <CartDetails
-          next={() => setSelectedStep(1)}
           step={selectedStep}
           total={selectedProduct.reduce((prev, curr) => {
             return prev + curr.price.current;

@@ -62,6 +62,7 @@ export const shippingFields = [
 
 const ShippingInfo = () => {
   const addShippingInfo = useCartStore((state) => state.addShippmentDetail);
+  const next = useCartStore((state) => state.next);
   function handleShipping(data: z.infer<typeof shippingSchema>) {
     addShippingInfo(
       data.name,
@@ -70,6 +71,7 @@ const ShippingInfo = () => {
       data.address || "",
       data.city
     );
+    next();
   }
   const form = useForm<z.infer<typeof shippingSchema>>({
     resolver: zodResolver(shippingSchema),

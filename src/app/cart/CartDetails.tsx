@@ -6,14 +6,15 @@ import React from "react";
 
 const CartDetails = ({
   total,
-  next,
+
   step,
 }: {
   total: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  next: any;
+
   step: number;
 }) => {
+  const next = useCartStore((state) => state.next);
   const discountPercentage = useCartStore((state) => state.discount) || 0;
   const discount = total * Number((-1 * discountPercentage) / 100);
   const shippingFee = useCartStore((state) => state.shippingFee) || 0;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { luhnCheck } from "@/lib/utils";
@@ -69,6 +69,10 @@ const paiementFeilds = [
 ];
 const PaymentInfo = () => {
   const addPaymentInfo = useCartStore((state) => state.addPaymentInfo);
+  const cart = useCartStore((state) => state);
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
   const handlePayment = (data: z.infer<typeof paymentSchema>) => {
     addPaymentInfo(data.nameOnCard, data.cardNumber, data.experationDate);
   };
