@@ -3,7 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/main/Header";
 import Footer from "@/components/main/Footer";
-
+import { Toaster } from "react-hot-toast";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -33,6 +33,7 @@ export default function RootLayout({
           <Header />
           <div className="w-full   flex-grow p-5">{children}</div>
           <Footer />
+          <Toaster position="top-center" />
         </div>
       </body>
     </html>

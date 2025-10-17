@@ -167,3 +167,6 @@ body {
 .card{
   @apply rounded-lg shadow-lg
 }
+button{
+  @apply cursor-pointer disabled:cursor-not-allowed
+}

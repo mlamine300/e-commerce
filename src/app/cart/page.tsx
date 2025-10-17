@@ -1,7 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { SelectedProduct } from "../../../../types";
-
+import React from "react";
 import CartDetails from "./CartDetails";
 import CartItems from "./CartItems";
 import ShippingInfo from "./ShippingInfo";
@@ -76,12 +74,7 @@ import { useCartStore } from "@/stores/cartStore";
 const Cart = () => {
   const steps = ["Shopping Cart", "Shipping Address", "Payment Method"];
   const selectedStep = useCartStore((state) => state.step);
-  const selectedProduct = useCartStore((state) => state.products);
-  const removeProductById = useCartStore((state) => state.removeProduct);
 
-  const deleteProduct = (id: number) => {
-    removeProductById(id);
-  };
   return (
     <div className="flex flex-col  items-center  pt-10 gap-5 ">
       <h3 className="text-xl font-semibold">Your Shopping Cart</h3>
@@ -117,18 +110,13 @@ const Cart = () => {
       </div>
       <div className="flex flex-col  xl:flex-row md:justify-around w-full gap-8 ">
         {selectedStep === 0 ? (
-          <CartItems products={selectedProduct} deleteProduct={deleteProduct} />
+          <CartItems />
         ) : selectedStep === 1 ? (
           <ShippingInfo />
         ) : (
           <PaymentInfo />
         )}
-        <CartDetails
-          step={selectedStep}
-          total={selectedProduct.reduce((prev, curr) => {
-            return prev + curr.price.current;
-          }, 0)}
-        />
+        <CartDetails />
       </div>
     </div>
   );

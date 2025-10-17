@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { SelectedProduct } from "../../../types";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { products } from "@/components/home/ProductList";
 export type CartStoreSchema = {
   step: number;
   products: SelectedProduct[] | [];
@@ -17,7 +18,8 @@ export type CartStoreSchema = {
   cardNumber: string;
   experationDate: string;
   addProduct: (product: SelectedProduct) => void;
-  removeProduct: (id: number) => void;
+  removeProduct: (id: string) => void;
+  updateProductQuantity: (id: string, quantity: number) => void;
   addShippmentDetail: (
     name: string,
     email: string,
@@ -32,6 +34,7 @@ export type CartStoreSchema = {
   ) => void;
   next: () => void;
   previous: () => void;
+  resetCart: () => void;
 };
 export const useCartStore = create<
   CartStoreSchema,
@@ -54,13 +57,20 @@ export const useCartStore = create<
       cardNumber: "",
       experationDate: "",
       addProduct: (product: SelectedProduct) =>
-        set((state) => ({
-          /**...state */ products: [...state.products, product],
-        })),
-      removeProduct: (id: number) =>
+        set((state) => {
+          const existingProduct = state.products
+            .filter((p) => p.orderId === product.orderId)
+            .at(0);
+          if (existingProduct) {
+            existingProduct.quantity += 1;
+            return { products: state.products };
+          }
+          return { products: [...state.products, product] };
+        }),
+      removeProduct: (orderId: string) =>
         set((state) => ({
           /**...state */
-          products: state.products.filter((p) => p.id !== id),
+          products: state.products.filter((p) => p.orderId !== orderId),
         })),
       addDiscount: (discount: number) =>
         set((state) => ({ /**...state */ discount: discount })),
@@ -86,7 +96,33 @@ export const useCartStore = create<
         })),
       next: () => set((state) => ({ /**...state */ step: state.step + 1 })),
       previous: () => set((state) => ({ /**...state */ step: state.step - 1 })),
+      resetCart: () =>
+        set(() => ({
+          step: 0,
+          products: [],
+          totalProducts: 0,
+          discount: 10,
+          shippingFee: 10,
+          totaltopay: 0,
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          city: "",
+          nameOnCard: "",
+          cardNumber: "",
+          experationDate: "",
+        })),
+
+      updateProductQuantity: (id: string, quantity: number) =>
+        set((state) => {
+          const updatedProducts: SelectedProduct[] = state.products;
+          const index = updatedProducts.findIndex((p) => p.orderId === id);
+          updatedProducts[index].quantity = quantity;
+          return { products: updatedProducts };
+        }),
     }),
+
     { name: "cart", storage: createJSONStorage(() => sessionStorage) }
   )
 );

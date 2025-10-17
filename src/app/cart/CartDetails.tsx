@@ -4,16 +4,12 @@ import { PriceTag } from "@/components/ui/PriceTag";
 import { useCartStore } from "@/stores/cartStore";
 import React from "react";
 
-const CartDetails = ({
-  total,
-
-  step,
-}: {
-  total: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
-  step: number;
-}) => {
+const CartDetails = () => {
+  const products = useCartStore((state) => state.products);
+  const step = useCartStore((state) => state.step);
+  const total = products.reduce((prev, curr) => {
+    return prev + curr.price.current;
+  }, 0);
   const next = useCartStore((state) => state.next);
   const discountPercentage = useCartStore((state) => state.discount) || 0;
   const discount = total * Number((-1 * discountPercentage) / 100);

@@ -20,6 +20,8 @@ import stripe from "../../../public/stripe.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/stores/cartStore";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 /********
  
@@ -70,11 +72,17 @@ const paiementFeilds = [
 const PaymentInfo = () => {
   const addPaymentInfo = useCartStore((state) => state.addPaymentInfo);
   const cart = useCartStore((state) => state);
+  const reset = useCartStore((state) => state.resetCart);
+  const router = useRouter();
   useEffect(() => {
     console.log(cart);
   }, [cart]);
   const handlePayment = (data: z.infer<typeof paymentSchema>) => {
     addPaymentInfo(data.nameOnCard, data.cardNumber, data.experationDate);
+    toast.success(`order confirmed `);
+    console.log(cart);
+    reset();
+    router.replace("/");
   };
   const form = useForm<z.infer<typeof paymentSchema>>({
     resolver: zodResolver(paymentSchema),
