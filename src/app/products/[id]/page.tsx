@@ -1,8 +1,7 @@
-"use client";
-import React, { useState } from "react";
-import { products } from "../../../components/home/ProductList";
+import { Product } from "../../../../../types";
+
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+
 import { PriceTag } from "@/components/ui/PriceTag";
 import { Button } from "@/components/ui/button";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
@@ -10,22 +9,185 @@ import klarna from "../../../../public/klarna.png";
 import cards from "../../../../public/cards.png";
 import stripe from "../../../../public/stripe.png";
 import Link from "next/link";
-const Page = () => {
-  const path = usePathname();
-  const id = path.split("/").at(path.split("/").length - 1);
+import SizeChooser from "./SizeChooser";
+import ColorChooser from "./ColorChooser";
+import QuantityChooser from "./QuantityChooser";
+import AddToCartProduct from "./AddToCartProduct";
+
+const products: Product[] = [
+  {
+    id: 1,
+    name: "Adidas CoreFit T-Shirt",
+    shortDescription: "Breathable cotton tee perfect for gym or casual wear.",
+    description:
+      "This Adidas CoreFit T-Shirt combines comfort, stretch, and breathability. Ideal for workouts or relaxed days out.",
+    price: { original: 49.9, current: 39.9 },
+    sizes: ["s", "m", "l", "xl", "xxl"],
+    colors: ["gray", "green", "purple"],
+    images: {
+      gray: "/products/1g.png",
+      green: "/products/1gr.png",
+      purple: "/products/1p.png",
+    },
+    category: "t-shirts",
+    rating: 4.6,
+    inStock: true,
+    datePublished: "2025-09-18",
+  },
+  {
+    id: 2,
+    name: "Puma Ultra Warm Zip",
+    shortDescription: "Lightweight zip jacket for cooler days.",
+    description:
+      "Stay warm without overheating in the Puma Ultra Warm Zip. Soft fleece interior with a durable, stylish exterior.",
+    price: { original: 69.9, current: 59.9 },
+    sizes: ["s", "m", "l", "xl", "xxl"],
+    colors: ["gray", "green"],
+    images: {
+      gray: "/products/2g.png",
+      green: "/products/2gr.png",
+    },
+    category: "jackets",
+    rating: 4.8,
+    inStock: true,
+    datePublished: "2025-09-22",
+  },
+  {
+    id: 3,
+    name: "Nike Breeze Hoodie",
+    shortDescription: "Soft fleece hoodie for comfort and warmth.",
+    description:
+      "Nike Breeze Hoodie features a premium fleece blend with moisture-wicking technology — perfect for gym and streetwear.",
+    price: { original: 79.9, current: 64.9 },
+    sizes: ["s", "m", "l", "xl"],
+    colors: ["black", "blue", "gray"],
+    images: {
+      black: "/products/3b.png",
+      blue: "/products/3bl.png",
+      gray: "/products/3gr.png",
+    },
+    category: "jackets",
+    rating: 4.7,
+    inStock: false,
+    datePublished: "2025-09-27",
+  },
+  {
+    id: 4,
+    name: "Reebok Pulse Tank",
+    shortDescription: "Lightweight sleeveless top for workouts.",
+    description:
+      "Reebok Pulse Tank is built from breathable mesh fabric to keep you cool during intense training sessions.",
+    price: { original: 39.9, current: 34.9 },
+    sizes: ["s", "m", "l"],
+    colors: ["pink", "white"],
+    images: {
+      pink: "/products/4p.png",
+      white: "/products/4w.png",
+    },
+    category: "t-shirts",
+    rating: 4.4,
+    inStock: true,
+    datePublished: "2025-09-29",
+  },
+  {
+    id: 5,
+    name: "Under Armour Velocity Jacket",
+    shortDescription: "High-performance jacket designed for motion.",
+    description:
+      "Under Armour’s Velocity Jacket keeps you protected from wind and rain while maintaining maximum flexibility.",
+    price: { original: 99.9, current: 89.9 },
+    sizes: ["m", "l", "xl", "xxl"],
+    colors: ["blue", "orange", "red"],
+    images: {
+      blue: "/products/5bl.png",
+      orange: "/products/5o.png",
+      red: "/products/5r.png",
+    },
+    category: "jackets",
+    rating: 4.9,
+    inStock: true,
+    datePublished: "2025-10-01",
+  },
+  {
+    id: 6,
+    name: "Columbia Active Tee",
+    shortDescription: "Moisture-wicking tee for outdoor performance.",
+    description:
+      "Columbia Active Tee offers quick-dry tech with lightweight comfort — great for hiking, training, or casual use.",
+    price: { original: 49.9, current: 44.9 },
+    sizes: ["s", "m", "l"],
+    colors: ["green", "white"],
+    images: {
+      green: "/products/6g.png",
+      white: "/products/6w.png",
+    },
+    category: "shoes",
+    rating: 4.3,
+    inStock: true,
+    datePublished: "2025-10-03",
+  },
+  {
+    id: 7,
+    name: "North Face Trail Fleece",
+    shortDescription: "Durable fleece jacket for all-weather comfort.",
+    description:
+      "The North Face Trail Fleece combines insulation and breathability, ideal for hikes or cool-weather casual wear.",
+    price: { original: 84.9, current: 74.9 },
+    sizes: ["m", "l", "xl"],
+    colors: ["green", "purple"],
+    images: {
+      green: "/products/7g.png",
+      purple: "/products/7p.png",
+    },
+    category: "shoes",
+    rating: 4.5,
+    inStock: true,
+    datePublished: "2025-10-06",
+  },
+  {
+    id: 8,
+    name: "New Balance Thermal Hoodie",
+    shortDescription: "Thermal hoodie built for cold-weather workouts.",
+    description:
+      "New Balance Thermal Hoodie locks in warmth while allowing freedom of movement — your perfect training companion.",
+    price: { original: 89.9, current: 79.9 },
+    sizes: ["s", "m", "l", "xl"],
+    colors: ["black", "gray"],
+    images: {
+      black: "/products/8b.png",
+      gray: "/products/8gr.png",
+    },
+    category: "jackets",
+    rating: 4.8,
+    inStock: false,
+    datePublished: "2025-10-10",
+  },
+];
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { id: string };
+}) => {
+  const product = products.filter((p) => params.id + "" === params.id).at(0);
+  if (product) return { title: product.name, description: product.description };
+};
+const Page = async ({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ color: string; size: string }>;
+}) => {
+  const id = (await params).id;
 
   const product = products.filter((p) => p.id === Number(id)).at(0);
 
-  const [selectedSize, setSelectedSize] = useState<string>(
-    product?.sizes.at(0) || ""
-  );
-  const [selectedColor, setSelectedColor] = useState<string>(
-    product?.colors.at(0) || ""
-  );
-
-  const image = product?.images[selectedColor] || "";
-  const [quantity, setQuantity] = useState(1);
+  const { color } = await searchParams;
   if (!product) return;
+  const x = Object.keys(product.images).at(0) || "";
+  const image = product.images[color] || product.images[x] || "";
+  console.log(image);
+
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       <Image
@@ -39,66 +201,11 @@ const Page = () => {
         <h3 className="text-xl font-semibold">{product.name} </h3>
         <p className="text-xs text-text-muted">{product.description} </p>
         <PriceTag price={product.price.current} textSize="xl" />
-        <div className="flex flex-col gap-1">
-          <p className="text-text-muted text-xs">Size</p>
-          <div className="flex gap-1">
-            {product.sizes.map((size, index) => (
-              <button
-                onClick={() => setSelectedSize(size)}
-                key={index}
-                className={` border-[1px] w-7 h-7 flex justify-center items-center ${
-                  size === selectedSize
-                    ? "bg-text-primary text-text-inverse border-text-inverse outline-1  "
-                    : ""
-                }`}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-        </div>
+        <SizeChooser product={product} />
 
-        <div className="flex flex-col gap-1">
-          <p className="text-text-muted text-xs">Color</p>
-          <div className="flex gap-1">
-            {product.colors.map((color, index) => (
-              <button
-                onClick={() => setSelectedColor(color)}
-                key={index}
-                style={{ backgroundColor: color, outlineColor: color }}
-                className={` border-1 w-7 h-7 flex justify-center items-center ${
-                  color === selectedColor
-                    ? " border-2 border-text-inverse outline-2  "
-                    : ""
-                }`}
-              ></button>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="text-text-muted text-xs">Quantity</p>
-          <div className="flex gap-1 items-center">
-            <button
-              disabled={quantity < 2}
-              onClick={() => setQuantity((q) => q - 1)}
-              className={`text-xl border-[1px] w-7 h-7 flex justify-center items-center 
-                 
-                `}
-            >
-              -
-            </button>
-            <p className="font-semibold text-sm mx-2">{quantity}</p>
-            <button
-              onClick={() => setQuantity((q) => q + 1)}
-              className={`text-xl  border-[1px] w-7 h-7 flex justify-center items-center hover: 
-                 
-                `}
-            >
-              +
-            </button>
-          </div>
-        </div>
-        <Button variant={"black"}>+Add to Cart</Button>
+        <ColorChooser product={product} />
+        <QuantityChooser />
+        <AddToCartProduct product={product} />
         <Button variant={"outline"}>
           <HiOutlineShoppingCart />
           Buy this Item

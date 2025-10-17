@@ -34,6 +34,7 @@ export type CartStoreSchema = {
   ) => void;
   next: () => void;
   previous: () => void;
+  setStep: (i: number) => void;
   resetCart: () => void;
 };
 export const useCartStore = create<
@@ -121,6 +122,8 @@ export const useCartStore = create<
           updatedProducts[index].quantity = quantity;
           return { products: updatedProducts };
         }),
+
+      setStep: (i: number) => set(() => ({ step: i })),
     }),
 
     { name: "cart", storage: createJSONStorage(() => sessionStorage) }

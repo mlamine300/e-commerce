@@ -6,6 +6,7 @@ import ShippingInfo from "./ShippingInfo";
 import { z } from "zod";
 import PaymentInfo from "./PaymentInfo";
 import { useCartStore } from "@/stores/cartStore";
+import toast from "react-hot-toast";
 // const boughtProducts: SelectedProduct[] = [
 //   {
 //     id: 1,
@@ -74,13 +75,27 @@ import { useCartStore } from "@/stores/cartStore";
 const Cart = () => {
   const steps = ["Shopping Cart", "Shipping Address", "Payment Method"];
   const selectedStep = useCartStore((state) => state.step);
+  const setStep = useCartStore((state) => state.setStep);
+  const name = useCartStore((state) => state.name);
+  const handleNavigation = (step: number) => {
+    if (step === 2 && !name) {
+      toast.error("please fill shipping information first");
+      return;
+    }
+
+    setStep(step);
+  };
 
   return (
     <div className="flex flex-col  items-center  pt-10 gap-5 ">
       <h3 className="text-xl font-semibold">Your Shopping Cart</h3>
       <div className="flex flex-col md:flex-row gap-4 md:gap-8">
         {steps.map((step, index) => (
-          <div key={index} className="flex flex-col gap-2 cursor-pointer">
+          <div
+            onClick={() => handleNavigation(index)}
+            key={index}
+            className="flex flex-col gap-2 cursor-pointer"
+          >
             <div className="flex  items-center gap-4 ">
               <p
                 className={`text-lg text-text-inverse  flex items-center
